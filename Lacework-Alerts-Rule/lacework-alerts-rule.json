@@ -1,7 +1,7 @@
 {
     "typeName": "Lacework::Alerts::Rule",
     "description": "A Lacework resource for managing the rules by which alerts are invoked",
-    "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-rpdk.git",
+    "sourceUrl": "https://github.com/aws-ia/cloudformation-laceworks-resource-providers",
     "typeConfiguration": {
         "properties": {
             "LaceworkAccess": {

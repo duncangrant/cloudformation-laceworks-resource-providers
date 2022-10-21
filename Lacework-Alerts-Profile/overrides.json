@@ -1,7 +1,7 @@
 {
   "CREATE": {
-    "/AlertProfileId": "Custom_Test_AlertProfiles",
-    "/Extends": "LW_CloudTrail_Alerts.CloudTrailDefaultAlert_AwsResource",
+    "/AlertProfileId": "Custom_Test_AlertProfiles_ContractTest",
+    "/Extends": "LW_HE_MACHINES_DEFAULT_PROFILE",
     "/Alerts": [
       {
         "Name": "HE_Machine_NewViolation",

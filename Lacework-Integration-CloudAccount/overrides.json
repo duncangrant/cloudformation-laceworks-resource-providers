@@ -1,0 +1,14 @@
+{
+  "CREATE": {
+    "/Name": "Test Cloud Account",
+    "/Type": "AwsCfg",
+    "/Enabled": 1,
+    "/Data": "{\"crossAccountCredentials\": {\"externalId\": \"<EXTERNAL_ID>\", \"roleArn\": \"<ACCOUNT_ROLE>\"}, \"awsAccountId\": \"<ACCOUNT_ID>\"}"
+  },
+  "UPDATE": {
+    "/Name": "Test Cloud Account - with update",
+    "/Type": "AwsCfg",
+    "/Enabled": 0,
+    "/Data": "{\"crossAccountCredentials\": {\"externalId\": \"<EXTERNAL_ID>\", \"roleArn\": \"<ACCOUNT_ROLE>\"}, \"awsAccountId\": \"<ACCOUNT_ID>\"}"
+  }
+}

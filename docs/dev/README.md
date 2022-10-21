@@ -22,3 +22,6 @@ You must have a Lacework account to run these tests.
 ## Testing
 
 Some of the contract tests for specific resources require pre-configured setup.  This is documented in the README.md files of those resources.
+
+To run the contract tests for a specific resource you need to update the overrides.json file for that resource.  Replace any values within <> with
+actual values that will work with your account.  You can then run the contract tests with the command: `cfn test`

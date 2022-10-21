@@ -1,6 +1,6 @@
 {
-    "typeName": "Lacework::Alerts::Channel",
-    "description": "A resource for defining Lacework notification channels",
+    "typeName": "Lacework::Integration::CloudAccount",
+    "description": "Resource to integrate a Cloud Account with Lacework",
     "sourceUrl": "https://github.com/aws-ia/cloudformation-laceworks-resource-providers",
     "typeConfiguration": {
         "properties": {
@@ -31,78 +31,64 @@
         }
     },
     "properties": {
-        "Name":{
-            "type": "string"
+        "Name": {
+            "title": "Name",
+            "type": "string",
+            "description": "When sending a request, use this attribute to specify an integration's name. When included in a response, this attribute returns the specified integration's name.",
+            "minLength": 1
         },
         "Type": {
+            "title": "Type",
             "type": "string",
+            "description": "When sending a request, use this attribute to specify the type of integration, from the following options. When included in a response, this attribute returns the specified integration's type.",
             "enum": [
-                "AwsS3",
-                "CiscoSparkWebhook",
-                "CloudwatchEb",
-                "Datadog",
-                "EmailUser",
-                "GcpPubsub",
-                "IbmQradar",
-                "Jira",
-                "MicrosoftTeams",
-                "NewRelicInsights",
-                "PagerDutyApi",
-                "ServiceNowRest",
-                "SlackChannel",
-                "SplunkHec",
-                "VictorOps",
-                "Webhook"
+                "AwsCfg",
+                "AwsCtSqs",
+                "AwsEksAudit",
+                "AwsUsGovCfg",
+                "AwsUsGovCtSqs",
+                "AzureAlSeq",
+                "AzureCfg",
+                "GcpAtSes",
+                "GcpCfg"
             ]
         },
         "Enabled": {
+            "title": "Enabled",
             "type": "number",
-            "description": "When sending a request, use this attribute to enable or disable an alert channel. When included in a response, returns 1 for enabled alert channels, or returns 0 for disabled alert channels.",
+            "description": "When sending a request, use this attribute to enable or disable an integration. When included in a response, returns 1 for an enabled integration or 0 for a disabled integration.",
             "minimum": 0,
             "maximum": 1
         },
         "Data": {
-            "type": "object"
-        },
-        "Props": {
-            "description": "The alert channel's properties",
-            "type": "object"
-        },
-        "IsOrg": {
-            "type": "number"
-        },
-        "CreatedOrUpdatedBy": {
             "type": "string",
-            "description": "The user who created or who last updated the alert channel."
+            "description": "A stringified JSON object as defined here https://yourlacework.lacework.net/api/v2/docs#tag/ContainerRegistries/paths/~1api~1v2~1ContainerRegistries/post"
+        },
+        "IntgGuid": {
+            "type": "string",
+            "description": "The integration's globally unique identifier"
         },
         "CreatedOrUpdatedTime": {
             "type": "string",
             "description": "The timestamp for when the alert channel was created or last updated."
-        },
-        "IntgGuid": {
-            "type": "string",
-            "description": "Alert channel Id"
         }
     },
     "additionalProperties": false,
     "required": [
         "Name",
         "Type",
-        "Enabled",
-        "Data"
+        "Data",
+        "Enabled"
     ],
     "readOnlyProperties": [
-        "/properties/Props",
-        "/properties/IsOrg",
-        "/properties/CreatedOrUpdatedBy",
-        "/properties/CreatedOrUpdatedTime",
+        "/properties/IntgGuid",
+        "/properties/CreatedOrUpdatedTime"
+    ],
+    "primaryIdentifier": [
         "/properties/IntgGuid"
     ],
     "writeOnlyProperties": [
         "/properties/Data"
-    ],
-    "primaryIdentifier": [
-        "/properties/IntgGuid"
     ],
     "handlers": {
         "create": {

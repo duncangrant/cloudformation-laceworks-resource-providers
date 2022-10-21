@@ -1,0 +1,14 @@
+{
+  "CREATE": {
+    "/Name": "Test Container Registry",
+    "/Type": "ContVulnCfg",
+    "/Enabled": 1,
+    "/Data": "{ \"crossAccountCredentials\": { \"externalId\": \"<EXTERNAL_ID>\", \"roleArn\": \"<ACCOUNT_ROLE>\" }, \"awsAuthType\": \"AWS_IAM\", \"registryType\": \"AWS_ECR\", \"limitByTag\": [], \"limitByLabel\": [], \"limitByRep\": [], \"registryDomain\": \"<REGISTRY_DOMAIN>\", \"limitNumImg\": 5, \"nonOsPackageEval\": true }\n"
+  },
+  "UPDATE": {
+    "/Name": "Test Container Registry",
+    "/Type": "ContVulnCfg",
+    "/Enabled": 0,
+    "/Data": "{ \"crossAccountCredentials\": { \"externalId\": \"<EXTERNAL_ID>\", \"roleArn\": \"<ACCOUNT_ROLE>\" }, \"awsAuthType\": \"AWS_IAM\", \"registryType\": \"AWS_ECR\", \"limitByTag\": [], \"limitByLabel\": [], \"limitByRep\": [], \"registryDomain\": \"<REGISTRY_DOMAIN>\", \"limitNumImg\": 5, \"nonOsPackageEval\": true }\n"
+  }
+}

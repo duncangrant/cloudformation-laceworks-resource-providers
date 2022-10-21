@@ -114,7 +114,6 @@ export abstract class AbstractBaseResource<ResourceModelType extends BaseModel, 
         logger: LoggerProxy,
         typeConfiguration: TypeConfigurationType
     ): Promise<ProgressEvent<ResourceModelType, RetryableCallbackContext>> {
-        logger.log("CREATE");
         let model = this.newModel(request.desiredResourceState);
 
         if (!callbackContext.retry) {
