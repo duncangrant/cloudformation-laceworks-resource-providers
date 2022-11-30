@@ -88,10 +88,13 @@ class Resource extends AbstractLaceworkResource<ResourceModel, ResourceModel, Re
         if (!from) {
             return model;
         }
+
         let resourceModel = new ResourceModel({
-            ...model,
-            ...from,
-            type_: (<any>from).type
+            intgGuid: model.intgGuid,
+            ...Transformer.for(from)
+                .forModelIngestion()
+                .transformKeys(CaseTransformer.IDENTITY)
+                .transform()
         });
 
         delete resourceModel.data;

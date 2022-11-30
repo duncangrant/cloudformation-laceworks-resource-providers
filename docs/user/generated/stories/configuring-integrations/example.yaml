@@ -1,0 +1,39 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::LanguageExtensions'
+
+Description: |
+  The following CloudFormation Lacework resource types configure a Lacework cloud account and a container registry
+
+Resources:
+  ContainerRegistry:
+    Type: Lacework::Integration::ContainerRegistry
+    Properties:
+      Name: "Test Container Registry"
+      Type: "ContVulnCfg"
+      Enabled: 1
+      Data:
+        Fn::ToJsonString:
+          crossAccountCredentials:
+            externalId: "EXTERNAL_ID"
+            roleArn: "ACCOUNT_ROLE"
+          awsAuthType: "AWS_IAM"
+          registryType: "AWS_ECR"
+          limitByTag: []
+          limitByLabel: []
+          limitByRep: []
+          registryDomain: "REGISTRY_DOMAIN"
+          limitNumImg: 5
+          nonOsPackageEval: true
+
+  CloudAccount:
+    Type: Lacework::Integration::CloudAccount
+    Properties:
+      Name: Test Cloud Account
+      Type: AwsCfg
+      Enabled: 1
+      Data:
+        Fn::ToJsonString:
+          crossAccountCredentials:
+            externalId: "EXTERNAL_ID"
+            roleArn: "ACCOUNT_ROLE"
+          awsAccountId: "ACCOUNT_ID"

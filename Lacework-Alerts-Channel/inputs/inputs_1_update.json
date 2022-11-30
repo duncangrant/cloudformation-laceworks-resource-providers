@@ -1,0 +1,10 @@
+{
+    "Name": "Test Email",
+    "Type": "EmailUser",
+    "Enabled": 0,
+    "Data": {
+      "ChannelProps": {
+        "Recipients": ["alert-recipient@example.com"]
+      }
+    }
+}

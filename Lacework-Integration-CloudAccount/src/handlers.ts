@@ -29,7 +29,10 @@ class Resource extends AbstractLaceworkResource<ResourceModel, ResourceModel, Re
             `/CloudAccounts`,
             null, {...transform});
 
-        return new ResourceModel(response.data.data);
+        return new ResourceModel(Transformer.for(response.data.data)
+            .transformKeys(CaseTransformer.IDENTITY)
+            .forModelIngestion()
+            .transform());
     }
 
     async update(model: ResourceModel, typeConfiguration: TypeConfigurationModel | undefined): Promise<ResourceModel> {
@@ -42,7 +45,10 @@ class Resource extends AbstractLaceworkResource<ResourceModel, ResourceModel, Re
                     .transform()
             });
 
-        return new ResourceModel(response.data.data);
+        return new ResourceModel(Transformer.for(response.data.data)
+            .transformKeys(CaseTransformer.IDENTITY)
+            .forModelIngestion()
+            .transform());
     }
 
     async delete(model: ResourceModel, typeConfiguration: TypeConfigurationModel | undefined): Promise<void> {
@@ -66,7 +72,10 @@ class Resource extends AbstractLaceworkResource<ResourceModel, ResourceModel, Re
             `/CloudAccounts/${model.intgGuid}`,
             null, null);
 
-        return new ResourceModel(response.data.data);
+        return new ResourceModel(Transformer.for(response.data.data)
+            .transformKeys(CaseTransformer.IDENTITY)
+            .forModelIngestion()
+            .transform());
     }
 
     async list(model: ResourceModel, typeConfiguration: TypeConfigurationModel | undefined): Promise<ResourceModel[]> {
@@ -80,7 +89,13 @@ class Resource extends AbstractLaceworkResource<ResourceModel, ResourceModel, Re
             return [];
         }
 
-        return response.data.data.map(group => this.setModelFrom(new ResourceModel(), new ResourceModel(group)));
+        return response.data.data.map(group => {
+            const resourceModel = new ResourceModel(
+                    Transformer.for(group)
+                        .transformKeys(CaseTransformer.IDENTITY)
+                        .forModelIngestion().transform());
+            return this.setModelFrom(new ResourceModel(), resourceModel);
+        });
     }
 
     newModel(partial: any): ResourceModel {
@@ -94,11 +109,16 @@ class Resource extends AbstractLaceworkResource<ResourceModel, ResourceModel, Re
 
         delete from.data;
 
-        return new ResourceModel({
+        let resourceModel = new ResourceModel({
             intgGuid: model.intgGuid,
-            ...from,
-            type_: (<any>from).type
+            ...Transformer.for(from)
+                .forModelIngestion()
+                .transformKeys(CaseTransformer.IDENTITY)
+                .transform()
         });
+
+        this.loggerProxy.log(`!!!!! DJG ----- Set Model from output  ${resourceModel.toJSON()}`);
+        return resourceModel;
     }
 
 }

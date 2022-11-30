@@ -1,0 +1,8 @@
+{
+  "TokenAlias": "{{uuid}}",
+  "TokenEnabled": 1,
+  "Props": {
+    "Description": "A descritpion",
+    "Os": "Linux"
+  }
+}
