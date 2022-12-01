@@ -1,0 +1,12 @@
+{
+    "AlertProfileId": "Custom_Test_AlertProfiles_ContractTest_1",
+    "Extends": "LW_HE_MACHINES_DEFAULT_PROFILE",
+    "Alerts": [
+      {
+        "Name": "HE_Machine_NewViolation",
+        "EventName": "Custom LW Host Entity Machine New Violation Alert",
+        "Description": "Custom New Violation for machine",
+        "Subject": "Custom New violation detected for machine - updated"
+      }
+    ]
+}

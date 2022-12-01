@@ -17,5 +17,17 @@
         "target_schemas": [],
         "useDocker": false,
         "protocolVersion": "2.0.0"
+    },
+    "contractSettings":{
+        "typeConfiguration": {
+            "configuration": {
+                "LaceworkAccess": {
+                    "Url": "{{resolve:ssm-secure:/cfn/lacework/url:2}}",
+                    "AccessKeyId": "{{resolve:ssm-secure:/cfn/lacework/accesskeyid:1}}",
+                    "SecretKey": "{{resolve:ssm-secure:/cfn/lacework/secretkey:1}}"
+                }
+            },
+            "configurationAlias": "default"
+        }
     }
 }

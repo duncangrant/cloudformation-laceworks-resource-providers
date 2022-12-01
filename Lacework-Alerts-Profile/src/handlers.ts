@@ -8,16 +8,18 @@ import {CaseTransformer, Transformer} from "../../Lacework-Common/src/util";
 interface CallbackContext extends Record<string, any> {}
 
 type AlertProfile = {
+    descriptionKeys: any;
+    fields: any;
     data: any
 }
 
 type AlertProfiles = {
     data: any[]
 }
-class Resource extends AbstractLaceworkResource<ResourceModel, ResourceModel, ResourceModel, ResourceModel, TypeConfigurationModel> {
+class Resource extends AbstractLaceworkResource<ResourceModel, AlertProfile, AlertProfile, AlertProfile, TypeConfigurationModel> {
     private userAgent = `AWS CloudFormation (+https://aws.amazon.com/cloudformation/) CloudFormation resource ${this.typeName}/${version}`;
 
-    async create(model: ResourceModel, typeConfiguration: TypeConfigurationModel | undefined): Promise<ResourceModel> {
+    async create(model: ResourceModel, typeConfiguration: TypeConfigurationModel | undefined): Promise<AlertProfile> {
         let transform = Transformer.for(model.toJSON())
             .transformKeys(CaseTransformer.PASCAL_TO_CAMEL)
             .transform();
@@ -27,10 +29,10 @@ class Resource extends AbstractLaceworkResource<ResourceModel, ResourceModel, Re
             `/AlertProfiles`,
             null, {...transform});
 
-        return new ResourceModel(response.data.data);
+        return response.data.data;
     }
 
-    async update(model: ResourceModel, typeConfiguration: TypeConfigurationModel | undefined): Promise<ResourceModel> {
+    async update(model: ResourceModel, typeConfiguration: TypeConfigurationModel | undefined): Promise<AlertProfile> {
         const body = new ResourceModel({...model});
         delete body.alertProfileId;
         delete body.extends_;
@@ -44,7 +46,7 @@ class Resource extends AbstractLaceworkResource<ResourceModel, ResourceModel, Re
                     .transform()
             });
 
-        return new ResourceModel(response.data.data);
+        return response.data.data;
     }
 
     async delete(model: ResourceModel, typeConfiguration: TypeConfigurationModel | undefined): Promise<void> {
@@ -58,7 +60,7 @@ class Resource extends AbstractLaceworkResource<ResourceModel, ResourceModel, Re
             null, null);
     }
 
-    async get(model: ResourceModel, typeConfiguration: TypeConfigurationModel | undefined): Promise<ResourceModel> {
+    async get(model: ResourceModel, typeConfiguration: TypeConfigurationModel | undefined): Promise<AlertProfile> {
         if (!model.alertProfileId) {
             throw new exceptions.NotFound(this.typeName, null);
         }
@@ -68,7 +70,7 @@ class Resource extends AbstractLaceworkResource<ResourceModel, ResourceModel, Re
             `/AlertProfiles/${model.alertProfileId}`,
             null, null);
 
-        return new ResourceModel(response.data.data);
+        return response.data.data;
     }
 
     async list(model: ResourceModel, typeConfiguration: TypeConfigurationModel | undefined): Promise<ResourceModel[]> {
@@ -82,24 +84,34 @@ class Resource extends AbstractLaceworkResource<ResourceModel, ResourceModel, Re
             return [];
         }
 
-        return response.data.data.map(group => this.setModelFrom(new ResourceModel(), new ResourceModel(group)));
+        return response.data.data.map(group => this.setModelFrom(new ResourceModel(), group));
     }
 
     newModel(partial: any): ResourceModel {
         return new ResourceModel(partial);
     }
 
-    setModelFrom(model: ResourceModel, from: ResourceModel | undefined): ResourceModel {
+    setModelFrom(model: ResourceModel, from: AlertProfile | undefined): ResourceModel {
         if (!from) {
             return model;
         }
+
+        delete from.fields;
+        delete from.descriptionKeys;
+
         let resourceModel = new ResourceModel({
-            ...model,
-            ...from,
-            extends_: (<any>from).extends
+            alertProfileId: model.alertProfileId,
+            ...Transformer
+                .for(from)
+                .transformKeys(CaseTransformer.IDENTITY)
+                .forModelIngestion()
+                .transform()
         });
 
         delete resourceModel.alerts;
+
+
+        this.loggerProxy.log(`!!!!! DJG ${JSON.stringify(resourceModel.toJSON())}`);
 
         return resourceModel;
     }
